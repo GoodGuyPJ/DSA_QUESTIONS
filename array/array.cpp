@@ -688,7 +688,7 @@ public:
 
         for (int i = n - 3; i >= 0; i--)
         {
-            if (nums[i] + nums[i + 1] > nums[i + 2])
+            if (nums[i] + nums[i + 1] > nums[i + 2]) // a+b>c
             {
                 return nums[i] + nums[i + 1] + nums[i + 2];
             }
@@ -698,3 +698,163 @@ public:
 };
 
 // 21 - Contains Duplicate II
+class Solution
+{
+public:
+    bool containsNearbyDuplicate(vector<int> &nums, int k)
+    {
+        int n = nums.size();
+        unordered_map<int, int> mp;
+        for (int i = 0; i < nums.size(); i++)
+        {
+            if (mp.find(nums[i]) != mp.end() &&
+                abs(mp[nums[i]] - i) <= k)
+            {
+                return true;
+            }
+            else
+            {
+                mp[nums[i]] = i;
+            }
+        }
+        return false;
+    }
+};
+
+// 22 - Set Mismatch
+class Solution
+{
+public:
+    vector<int> findErrorNums(vector<int> &nums)
+    {
+        int n = nums.size();
+        int dup = -1;
+        int missing = -1;
+        for (int i = 0; i < n; i++)
+        {
+            if (nums[abs(nums[i]) - 1] < 0)
+            {
+                dup = nums[i];
+            }
+            else
+            {
+                nums[abs(nums[i]) - 1] *= (-1);
+            }
+        }
+
+        for (int i = 0; i < n; i++)
+        {
+            if (nums[i] > 0)
+            {
+                missing = (i + 1);
+                break;
+            }
+        }
+        return {dup, missing};
+    }
+};
+
+// 23 - Continuous Subarray Sum
+class Solution
+{
+public:
+    bool checkSubarraySum(vector<int> &nums, int k)
+    {
+        int n = nums.size();
+        // O(n2)
+        //  for(int i=0; i<n; i++){
+        //      int sum = 0;
+        //      for(int j=i; j<n; j++){
+        //          sum += nums[i]+ nums[j];
+        //          if(sum%k == 0){
+        //              return true;
+        //          }
+        //      }
+        //  }
+        //  return false;
+
+        // map taking rem, index
+        unorderd_map<int, int> mp;
+        int sum = 0;
+        mp[0] = -1;
+        for (int i = 0; i < n; i++)
+        {
+            sum += nums[i];
+
+            int remainder = sum % k;
+
+            // check if its present in map (past me kahi dekhan hai ?)
+
+            if (mp.find(remainder) != mp.end())
+            {
+                if (i - mp[remainder] >= 2)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                mp[remainder] = i;
+            }
+        }
+        return false;
+    }
+};
+
+// 24 - Image Overlap
+class Solution
+{
+public:
+    int countOverLaps(vector<vector<int>> &img1, vector<vector<int>> &img2, int rowOff, int colOff)
+    {
+        int n = img1.size();
+
+        int count = 0;
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                int B_i = i + rowOff;
+                int B_j = j + colOff;
+
+                if (B_i < 0 || B_i >= n || B_j < 0 || B_j >= n)
+                {
+                    continue;
+                }
+                if (img1[i][j] == 1 && img2[B_i][B_j] == 1)
+                {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+    int largestOverlap(vector<vector<int>> &img1, vector<vector<int>> &img2)
+    {
+        int n = img1.size();
+        // n*n  col= row == n
+
+        int maxOverlap = 0;
+        for (int rowOff = -n + 1; rowOff < n; rowOff++)
+        {
+            for (int colOff = -n + 1; colOff < n; colOff++)
+            {
+                int count = countOverLaps(img1, img2, rowOff, colOff);
+                maxOverlap = max(maxOverlap, count);
+            }
+        }
+        return maxOverlap;
+    }
+};
+
+// 25 - Shortest Path in a Grid with Obstacles Elimination
+
+// 26 -
+
+// 27 -
+
+// 28 -
+
+// 29 -
+
+// 30 -
