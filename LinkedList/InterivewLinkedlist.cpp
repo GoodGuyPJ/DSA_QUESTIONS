@@ -158,4 +158,23 @@ public:
 };
 
 // Linked List Random Node
-come back and check this question
+class Solution
+{
+public:
+    // vector<int> arr;
+    Solution(ListNode *head)
+    {
+        // ListNode* temp = head;
+        // while(temp!=NULL){
+        //     arr.push_back(temp->val);
+        //     temp= temp->next;
+        // }
+    }
+
+    int getRandom()
+    {
+        // int n = arr.size();
+        // int random = rand()%n;
+        // return arr[random];
+    }
+};
