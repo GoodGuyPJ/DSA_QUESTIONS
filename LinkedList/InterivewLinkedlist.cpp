@@ -295,6 +295,44 @@ public:
     }
 };
 
+// Remove Zero Sum Consecutive Nodes from Linked List
+class Solution
+{
+public:
+    ListNode *removeZeroSumSublists(ListNode *head)
+    {
+        int prefixsum = 0;
+        unordered_map<int, ListNode *> mp;
+        ListNode *dummyNode = new ListNode(0);
+        dummyNode->next = head;
+        mp[0] = dummyNode;
 
-//Remove Zero Sum Consecutive Nodes from Linked List
- 
+        while (head != NULL)
+        {
+            prefixsum += head->val;
+
+            if (mp.find(prefixsum) != mp.end())
+            {
+                ListNode *p = mp[prefixsum];
+                ListNode *start = p;
+                int pSum = prefixsum;
+                while (start != head)
+                {
+                    start = start->next;
+                    pSum += start->val;
+                    if (start != head)
+                        mp.erase(pSum);
+                }
+                p->next = start->next;
+            }
+            else
+            {
+                mp[prefixsum] = head;
+            }
+            head = head->next;
+        }
+        return dummyNode->next;
+    }
+};
+
+//
