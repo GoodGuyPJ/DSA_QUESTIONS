@@ -411,3 +411,223 @@ public:
         return head;
     }
 };
+
+// Swap Nodes in Pairs
+class Solution
+{
+public:
+    ListNode *swapPairs(ListNode *head)
+    {
+        if (head == NULL || head->next == nullptr)
+        {
+            return head;
+        }
+
+        ListNode *temp = head->next;
+        head->next = swapPairs(head->next->next);
+        temp->next = head;
+
+        return temp;
+    }
+};
+
+// Maximum Twin Sum of a Linked List | 3 Approaches
+class Solution
+{
+public:
+    int pairSum(ListNode *head)
+    {
+        // Approch 1
+        vector<int> vec;
+        ListNode *curr = head;
+        while (curr != NULL)
+        {
+            vec.push_back(curr->val);
+            curr = curr->next;
+        }
+        int result = 0;
+        int i = 0, j = vec.size() - 1;
+        while (i < j)
+        {
+            result = max(result, vec[i] + vec[j]);
+            i++;
+            j--;
+        }
+        return result;
+
+        // Approch 2
+        stack<int> st;
+        ListNode *curr = head;
+        while (curr != nullptr)
+        {
+            st.push(curr->val);
+            curr = curr->next;
+        }
+        int l = st.size();
+        curr = head;
+        int count = 1;
+        int result = 0;
+        while (count <= l / 2)
+        {
+            result = max(result, curr->val + st.top());
+            curr = curr->next;
+            st.pop();
+            count++;
+        }
+        return result;
+
+        // Approach 3
+        ListNode *slow = head;
+        ListNode *fast = head;
+        while (fast != nullptr && fast->next != NULL)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        ListNode *mid = slow;
+        ListNode *prev = NULL;
+        ListNode *nextNode = NULL;
+        while (mid != NULL)
+        {
+            nextNode = mid->next;
+            mid->next = prev;
+            prev = mid;
+            mid = nextNode;
+        }
+
+        int result = 0;
+        ListNode *curr = head;
+        while (prev != NULL)
+        {
+            result = max(result, curr->val + prev->val);
+            curr = curr->next;
+            prev = prev->next;
+        }
+
+        return result;
+    }
+};
+
+// Add Two Numbers II
+class Solution
+{
+public:
+    ListNode *reverseLL(ListNode *head)
+    {
+        if (!head || !head->next)
+        {
+            return head;
+        }
+        ListNode *last = reverseLL(head->next);
+        head->next->next = head;
+        head->next = NULL;
+        return last;
+    }
+    ListNode *addTwoNumbers(ListNode *l1, ListNode *l2)
+    {
+        l1 = reverseLL(l1);
+        l2 = reverseLL(l2);
+        int sum = 0, carry = 0;
+        ListNode *ans = new ListNode();
+        while (l1 != NULL || l2 != NULL)
+        {
+            if (l1)
+            {
+                sum += l1->val;
+                l1 = l1->next;
+            }
+            if (l2)
+            {
+                sum += l2->val;
+                l2 = l2->next;
+            }
+
+            ans->val = sum % 10;
+            carry = sum / 10;
+
+            ListNode *newNode = new ListNode(carry);
+            newNode->next = ans;
+            ans = newNode;
+            sum = carry;
+        }
+        return carry == 0 ? ans->next : ans;
+    }
+};
+
+// Follow Up Qn Also without reveseing the LinkedList using stack
+class Solution
+{
+public:
+    ListNode *addTwoNumbers(ListNode *l1, ListNode *l2)
+    {
+        stack<int> s1, s2;
+
+        while (l1 != NULL)
+        {
+            s1.push(l1->val);
+            l1 = l1->next;
+        }
+        while (l2 != NULL)
+        {
+            s2.push(l2->val);
+            l2 = l2->next;
+        }
+
+        int sum = 0, carry = 0;
+        ListNode *ans = new ListNode();
+        while (!s1.empty() || !s2.empty())
+        {
+            if (!s1.empty())
+            {
+                sum += s1.top();
+                s1.pop();
+            }
+            if (!s2.empty())
+            {
+                sum += s2.top();
+                s2.pop();
+            }
+
+            ans->val = sum % 10;
+            carry = sum / 10;
+
+            ListNode *newNode = new ListNode(carry);
+            newNode->next = ans;
+            ans = newNode;
+            sum = carry;
+        }
+        return carry == 0 ? ans->next : ans;
+    }
+};
+
+// Partition List
+class Solution
+{
+public:
+    ListNode *partition(ListNode *head, int x)
+    {
+        ListNode *small = new ListNode(0);
+        ListNode *large = new ListNode(0);
+        ListNode *smallP = small;
+        ListNode *largeP = large;
+
+        while (head != NULL)
+        {
+            if (head->val < x)
+            {
+                smallP->next = head;
+                smallP = smallP->next;
+            }
+            else
+            {
+                largeP->next = head;
+                largeP = largeP->next;
+            }
+            head = head->next;
+        }
+        largeP->next = NULL;
+        smallP->next = large->next;
+
+        return small->next;
+    }
+};
