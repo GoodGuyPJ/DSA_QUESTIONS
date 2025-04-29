@@ -9,67 +9,82 @@
 // display - Displays the elements in the stack from top to bottom
 
 // Implementation of Stack using Arrays
-//top, push, pop, empty, size, clear, display
-class Stack {
+// top, push, pop, empty, size, clear, display
+class Stack
+{
 private:
     int top;
     int capacity;
-    int* stack;
+    int *stack;
+
 public:
-    Stack(int size) {
+    Stack(int size)
+    {
         capacity = size;
         stack = new int[capacity];
         top = -1;
     }
 
-    ~Stack() {
+    ~Stack()
+    {
         delete[] stack;
     }
 
-    void push(int value) {
-        if (top == capacity - 1) {
+    void push(int value)
+    {
+        if (top == capacity - 1)
+        {
             cout << "Stack Overflow" << endl;
             return;
         }
         stack[++top] = value;
     }
 
-    int pop() {
-        if (top == -1) {
+    int pop()
+    {
+        if (top == -1)
+        {
             cout << "Stack Underflow" << endl;
             return -1;
         }
         return stack[top--];
     }
 
-    int peek() {
-        if (top == -1) {
+    int peek()
+    {
+        if (top == -1)
+        {
             cout << "Stack is empty" << endl;
             return -1;
         }
         return stack[top];
     }
 
-    bool isEmpty() {
+    bool isEmpty()
+    {
         return top == -1;
     }
 
-    int size() {
+    int size()
+    {
         return top + 1;
     }
 
-    void clear() {
+    void clear()
+    {
         top = -1;
     }
 
-
-    void display() {
-        if (isEmpty()) {
+    void display()
+    {
+        if (isEmpty())
+        {
             cout << "Stack is empty" << endl;
             return;
         }
         cout << "Stack elements: ";
-        for (int i = top; i >= 0; i--) {
+        for (int i = top; i >= 0; i--)
+        {
             cout << stack[i] << " ";
         }
         cout << endl;
@@ -79,16 +94,17 @@ public:
 #include <iostream>
 using namespace std;
 
-int main() {
+int main()
+{
     Stack stack(5);
     stack.push(10);
     stack.push(20);
     stack.push(30);
-    stack.display(); // Output: Stack elements: 30 20 10
+    stack.display();                                 // Output: Stack elements: 30 20 10
     cout << "Top element: " << stack.peek() << endl; // Output: Top element: 30
-    cout << "Stack size: " << stack.size() << endl; // Output: Stack size: 3
+    cout << "Stack size: " << stack.size() << endl;  // Output: Stack size: 3
     stack.pop();
-    stack.display(); // Output: Stack elements: 20 10
+    stack.display();                                                        // Output: Stack elements: 20 10
     cout << "Is stack empty? " << (stack.isEmpty() ? "Yes" : "No") << endl; // Output: Is stack empty? No
     stack.clear();
     cout << "Stack cleared." << endl;
@@ -97,44 +113,53 @@ int main() {
 }
 
 // Implementation of Stack using Linked List
-//top, push, pop, empty, size, clear, display
-class Node {
+// top, push, pop, empty, size, clear, display
+class Node
+{
 public:
     int data;
-    Node* next;
-    Node(int value) {
+    Node *next;
+    Node(int value)
+    {
         data = value;
         next = nullptr;
     }
 };
 
-class StackLL {
+class StackLL
+{
 private:
-    Node* top;
+    Node *top;
     int count;
+
 public:
-    StackLL() {
+    StackLL()
+    {
         top = nullptr;
         count = 0;
     }
 
-    ~StackLL() {
+    ~StackLL()
+    {
         clear();
     }
 
-    void push(int value) {
-        Node* newNode = new Node(value);
+    void push(int value)
+    {
+        Node *newNode = new Node(value);
         newNode->next = top;
         top = newNode;
         count++;
     }
 
-    int pop() {
-        if (isEmpty()) {
+    int pop()
+    {
+        if (isEmpty())
+        {
             cout << "Stack Underflow" << endl;
             return -1;
         }
-        Node* temp = top;
+        Node *temp = top;
         int poppedValue = top->data;
         top = top->next;
         delete temp;
@@ -142,47 +167,58 @@ public:
         return poppedValue;
     }
 
-    int peek() {
-        if (isEmpty()) {
+    int peek()
+    {
+        if (isEmpty())
+        {
             cout << "Stack is empty" << endl;
             return -1;
         }
         return top->data;
     }
 
-    bool isEmpty() {
+    bool isEmpty()
+    {
         return top == nullptr;
     }
 
-    int size() {
+    int size()
+    {
         return count;
     }
 
-    void clear() {
-        while (!isEmpty()) {
+    void clear()
+    {
+        while (!isEmpty())
+        {
             pop();
         }
     }
 
-    void display() {
-        if (isEmpty()) {
+    void display()
+    {
+        if (isEmpty())
+        {
             cout << "Stack is empty" << endl;
             return;
         }
         cout << "Stack elements: ";
-        Node* current = top;
-        while (current != nullptr) {
+        Node *current = top;
+        while (current != nullptr)
+        {
             cout << current->data << " ";
             current = current->next;
         }
         cout << endl;
     }
 
-    void reverse() {
-        Node* prev = nullptr;
-        Node* current = top;
-        Node* next = nullptr;
-        while (current != nullptr) {
+    void reverse()
+    {
+        Node *prev = nullptr;
+        Node *current = top;
+        Node *next = nullptr;
+        while (current != nullptr)
+        {
             next = current->next;
             current->next = prev;
             prev = current;
@@ -195,16 +231,17 @@ public:
 #include <iostream>
 using namespace std;
 
-int main() {
+int main()
+{
     StackLL stack;
     stack.push(10);
     stack.push(20);
     stack.push(30);
-    stack.display(); // Output: Stack elements: 30 20 10
+    stack.display();                                 // Output: Stack elements: 30 20 10
     cout << "Top element: " << stack.peek() << endl; // Output: Top element: 30
-    cout << "Stack size: " << stack.size() << endl; // Output: Stack size: 3
+    cout << "Stack size: " << stack.size() << endl;  // Output: Stack size: 3
     stack.pop();
-    stack.display(); // Output: Stack elements: 20 10
+    stack.display();                                                        // Output: Stack elements: 20 10
     cout << "Is stack empty? " << (stack.isEmpty() ? "Yes" : "No") << endl; // Output: Is stack empty? No
     stack.clear();
     cout << "Stack cleared." << endl;
@@ -212,25 +249,31 @@ int main() {
     return 0;
 }
 
-//Implementation Stack using Queue
-//top, push, pop, empty, size, clear, display
-class QueueStack {
+// Implementation Stack using Queue
+// top, push, pop, empty, size, clear, display
+class QueueStack
+{
 private:
     Queue queue1;
     Queue queue2;
+
 public:
     QueueStack(int size) : queue1(size), queue2(size) {}
 
-    void push(int value) {
+    void push(int value)
+    {
         queue1.enqueue(value);
     }
 
-    int pop() {
-        if (queue1.isEmpty()) {
+    int pop()
+    {
+        if (queue1.isEmpty())
+        {
             cout << "Stack Underflow" << endl;
             return -1;
         }
-        while (queue1.size() > 1) {
+        while (queue1.size() > 1)
+        {
             queue2.enqueue(queue1.dequeue());
         }
         int poppedValue = queue1.dequeue();
@@ -238,12 +281,15 @@ public:
         return poppedValue;
     }
 
-    int top() {
-        if (queue1.isEmpty()) {
+    int top()
+    {
+        if (queue1.isEmpty())
+        {
             cout << "Stack is empty" << endl;
             return -1;
         }
-        while (queue1.size() > 1) {
+        while (queue1.size() > 1)
+        {
             queue2.enqueue(queue1.dequeue());
         }
         int topValue = queue1.frontElement();
@@ -252,74 +298,131 @@ public:
         return topValue;
     }
 
-    bool isEmpty() {
+    bool isEmpty()
+    {
         return queue1.isEmpty();
     }
 
-    int size() {
+    int size()
+    {
         return queue1.size();
     }
 
-    void clear() {
+    void clear()
+    {
         queue1.clear();
     }
 
-    void display() {
+    void display()
+    {
         queue1.display();
     }
 
-    void swap(Queue& q1, Queue& q2) {
+    void swap(Queue &q1, Queue &q2)
+    {
         Queue temp = q1;
         q1 = q2;
         q2 = temp;
     }
 
-    void reverse() {
+    void reverse()
+    {
         queue1.reverse();
     }
 
-    void sort() {
+    void sort()
+    {
         queue1.sort();
     }
 
-    void merge(Queue& other) {
+    void merge(Queue &other)
+    {
         queue1.merge(other);
     }
 
-    void splitSortedK(Queue& other, int k) {
+    void splitSortedK(Queue &other, int k)
+    {
         queue1.splitSortedK(other, k);
     }
 
-    void mergeSorted(Queue& other) {
+    void mergeSorted(Queue &other)
+    {
         queue1.mergeSorted(other);
     }
 
-    void displaySorted() {
+    void displaySorted()
+    {
         queue1.displaySorted();
     }
 
-    void clearSorted() {
+    void clearSorted()
+    {
         queue1.clearSorted();
     }
 
-    void rotate(int k) {
+    void rotate(int k)
+    {
         queue1.rotate(k);
     }
 
-    void split(Queue& other) {
+    void split(Queue &other)
+    {
         queue1.split(other);
     }
-    void splitSorted(Queue& other) {
+    void splitSorted(Queue &other)
+    {
         queue1.splitSorted(other);
     }
-    void mergeSortedK(Queue& other, int k) {
+    void mergeSortedK(Queue &other, int k)
+    {
         queue1.mergeSortedK(other, k);
     }
+};
 
-  };
-
-
-
-  // Check for Balanced Parentheses
+// Check for Balanced Parentheses
 //   Input: s = "()[]{}"
 // Output: true
+class Solution
+{
+public:
+    bool isValid(string s)
+    {
+        stack<char> s1;
+        for (int i = 0; i < s.size(); i++)
+        {
+            if (s[i] == '(' || s[i] == '{' || s[i] == '[')
+            {
+                s1.push(s[i]);
+            }
+            else
+            {
+                if (s1.empty())
+                    return false;
+
+                char x = s1.top();
+                s1.pop();
+                if (x == '(' && s[i] != ')')
+                {
+                    return false;
+                }
+
+                if (x == '[' && s[i] != ']')
+                {
+                    return false;
+                }
+
+                if (x == '{' && s[i] != '}')
+                {
+                    return false;
+                }
+            }
+        }
+        if (s1.empty())
+        {
+            return true;
+        }
+        return false;
+    }
+};
+
+// Prefix, Infix, and Postfix Conversion
