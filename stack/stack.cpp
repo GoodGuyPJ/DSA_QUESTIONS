@@ -379,8 +379,6 @@ public:
     }
 };
 
-
-
 // Check for Balanced Parentheses
 //   Input: s = "()[]{}"
 // Output: true
@@ -428,49 +426,256 @@ public:
 };
 
 // Prefix, Infix, and Postfix Conversion used in LISP(LISP is a family of computer programming languages with a long history and a distinctive, fully parenthesized prefix notation.) and Tree
-//Infix to Postfix-> its a common way to represent expressions in programming languages. Infix notation is the standard way of writing expressions, where operators are placed between operands (e.g., A + B). Postfix notation, also known as Reverse Polish Notation (RPN), places operators after their operands (e.g., AB+). This conversion is useful for evaluating expressions using stacks, as it eliminates the need for parentheses and operator precedence rules.
-//For example, the infix expression (A + B) * C would be represented in postfix as AB+C*.
-infixtoPostfix(string s){
+// Infix to Postfix-> its a common way to represent expressions in programming languages. Infix notation is the standard way of writing expressions, where operators are placed between operands (e.g., A + B). Postfix notation, also known as Reverse Polish Notation (RPN), places operators after their operands (e.g., AB+). This conversion is useful for evaluating expressions using stacks, as it eliminates the need for parentheses and operator precedence rules.
+// For example, the infix expression (A + B) * C would be represented in postfix as AB+C*.
+infixtoPostfix(string s)
+{
     int i = 0;
     string ans = "";
     stack<char> st;
-    while(i<n){
-           if(s[i] == '('){
-                st.push(s[i]);
-    }
-            else if(s[i] == ')'){
-                while(!st.empty() && st.top() != '('){
-                    ans += st.top();
-                    st.pop();
-                }
+    while (i < n)
+    {
+        if (s[i] == '(')
+        {
+            st.push(s[i]);
+        }
+        else if (s[i] == ')')
+        {
+            while (!st.empty() && st.top() != '(')
+            {
+                ans += st.top();
                 st.pop();
             }
-            else if(s[i] >= 'a' && s[i] <= 'z'){
-                ans += s[i];
-            }
-            else{
-                while(!st.empty() && precedence(st.top()) >= precedence(s[i])){
-                    ans += st.top();
-                    st.pop();
-                }
-                st.push(s[i]);
-            }
-            i++;
-        }
-        while(!st.empty()){
-            ans += st.top();
             st.pop();
         }
-        return ans;
+        else if (s[i] >= 'a' && s[i] <= 'z')
+        {
+            ans += s[i];
+        }
+        else
+        {
+            while (!st.empty() && precedence(st.top()) >= precedence(s[i]))
+            {
+                ans += st.top();
+                st.pop();
+            }
+            st.push(s[i]);
+        }
+        i++;
+    }
+    while (!st.empty())
+    {
+        ans += st.top();
+        st.pop();
+    }
+    return ans;
 }
- 
 
 // Infix to Prefix
+infixtoPrefix(string s)
+{
+    int i = 0;
+    string ans = "";
+    stack<char> st;
+    reverse(s.begin(), s.end());
+    while (i < n)
+    {
+        if (s[i] == ')')
+        {
+            st.push(s[i]);
+        }
+        else if (s[i] == '(')
+        {
+            while (!st.empty() && st.top() != ')')
+            {
+                ans += st.top();
+                st.pop();
+            }
+            st.pop();
+        }
+        else if (s[i] >= 'a' && s[i] <= 'z')
+        {
+            ans += s[i];
+        }
+        else
+        {
+            while (!st.empty() && precedence(st.top()) >= precedence(s[i]))
+            {
+                ans += st.top();
+                st.pop();
+            }
+            st.push(s[i]);
+        }
+        i++;
+    }
+    while (!st.empty())
+    {
+        ans += st.top();
+        st.pop();
+    }
+    reverse(ans.begin(), ans.end());
+    return ans;
+}
+
 // Postfix to Infix
-//Prefix to Infix
+
+Postfixtoinfix(string s)
+{
+    int i = 0;
+    string ans = "";
+    stack<string> st;
+    while (i < n)
+    {
+        if (s[i] >= 'a' && s[i] <= 'z')
+        {
+            st.push(s[i]);
+        }
+        else
+        {
+            string op1 = st.top();
+            st.pop();
+            string op2 = st.top();
+            st.pop();
+            string temp = "(" + op2 + s[i] + op1 + ")";
+            st.push(temp);
+        }
+        i++;
+    }
+    return st.top();
+}
+
+// Prefix to Infix
+PrefixToInfix(string s)
+{
+    int i = 0;
+    string ans = "";
+    stack<string> st;
+    reverse(s.begin(), s.end());
+    while (i < n)
+    {
+        if (s[i] >= 'a' && s[i] <= 'z')
+        {
+            st.push(s[i]);
+        }
+        else
+        {
+            string op1 = st.top();
+            st.pop();
+            string op2 = st.top();
+            st.pop();
+            string temp = "(" + op1 + s[i] + op2 + ")";
+            st.push(temp);
+        }
+        i++;
+    }
+    return st.top();
+}
+
 // Postfix to Prefix
-//Prefix to Postfix
-
-
+// Prefix to Postfix
 
 // Implement Min Stack
+class MinStack
+{
+    stack<pair<int, int>> st;
+
+public:
+    void push(int x)
+    {
+        int min;
+        if (st.empty())
+        {
+            min = x;
+        }
+        else
+        {
+            min = std::min(x, st.top().second);
+        }
+        st.push({x, min});
+    }
+    void pop()
+    {
+        if (!st.empty())
+        {
+            st.pop();
+        }
+    }
+    int top()
+    {
+        if (!st.empty())
+        {
+            return st.top().first;
+        }
+        return -1; // or throw an exception
+    }
+    int getMin()
+    {
+        if (!st.empty())
+        {
+            return st.top().second;
+        }
+        return -1; // or throw an exception
+    }
+}
+
+// approch 2
+class MinStack
+{
+    stack<long long> st;
+    long long minEle;
+
+public:
+    MinSatck()
+    {
+        while (st.empty() == false)
+            st.pop();
+        minEle = INT_MAX;
+    }
+    void push(int val)
+    {
+        long long val = Long.valuevalue;
+        if (st.empty())
+        {
+            minEle = val;
+            st.push(val);
+        }
+        else
+        {
+            if (val < minEle)
+            {
+                st.push(2 * val - minEle);
+                minEle = val;
+            }
+            else
+            {
+                s.push(val);
+            }
+        }
+    }
+    void pop()
+    {
+        if (st.empty())
+            return;
+        if (st.top() < minEle)
+        {
+            minEle = 2 * minEle - st.top();
+        }
+        st.pop();
+    }
+    int top()
+    {
+        if (st.empty())
+            return -1;
+        if (st.top() < minEle)
+            return minEle;
+        return st.top();
+    }
+    int getMin()
+    {
+        if (st.empty())
+            return -1;
+        return minEle;
+    }
+}
+
+// Next Greater Element
