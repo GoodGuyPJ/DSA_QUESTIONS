@@ -678,25 +678,86 @@ public:
     }
 }
 
-// Next Greater Element
- class solution{
-    public: 
-    vector<int> nextGreaterElements(vector<int> & nums){
+Next Greater Element
+#include<bits/stdc++.h>
+
+using namespace std;
+class Solution {
+  public:
+    vector < int > nextGreaterElements(vector < int > & nums) {
+      int n = nums.size();
+      vector < int > nge(n, -1);
+      stack < int > st;
+      for (int i = 2 * n - 1; i >= 0; i--) {
+        while (!st.empty() && st.top() <= nums[i % n]) {
+          st.pop();
+        }
+
+        if (i < n) {
+          if (!st.empty()) nge[i] = st.top();
+        }
+        st.push(nums[i % n]);
+      }
+      return nge;
+    }
+};
+int main() {
+  Solution obj;
+  vector < int > v {5,7,1,2,6,0};
+  vector < int > res = obj.nextGreaterElements(v);
+  cout << "The next greater elements are" << endl;
+  for (int i = 0; i < res.size(); i++) {
+    cout << res[i] << " ";
+  }
+}
+
+//  Next Greater Element - II
+
+// Nearet/Previous Smaller Element
+class Solution {
+    public:
+    vector < int> nextSmallerElement(vector < int > & nums) {
         int n = nums.size();
-        vector<int nge(n, -1);
-        stack<int> st;
-        for(int i= 2*n-1; i>=0; i--){
-            while(!st.empty() && st.top() <= nums[i%n]){
+        vector <int> nse(n, -1);
+        stack <int> st;
+        for (int i = 0; i < n; i++) {
+            while (!st.empty() && nums[st.top()] >= nums[i]) {
                 st.pop();
             }
-            if(i<n){
-                if(!st.empty()) nge[i] = st.top();
+            if (!st.empty()) {
+                nse[i] = st.top();
             }
-            st.push(nums[i%n]);
+            st.push(i);
         }
-        return nge;
+        return nse;
     }
- }
+};
+
+// Trapping Rainwater | 2 Approaches | Stack and Queue
+int trap(vector<int> & height){
+  int n = height.size();
+  int left =0, right = n-1;
+  int res = 0;
+  int maxleft = 0, maxright = 0;
+  while(left<= right){
+    if(height[left] <= height[right]){
+      if(height[left] >= maxleft){
+        maxleft = height[left];
+      } else{
+        res += maxleft - height[left];
+      }
+      left++;
+    }else{
+      if(height[right] >= maxright){
+        maxright = height[right];
+      } else{
+        re += maxright - height[right];
+      }
+      right--;
+    }
+  }
+  return res;
+}
 
 
-//  Next Greater Element - II 
+//Sum of Subarray Minimum
