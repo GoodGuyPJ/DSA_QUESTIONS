@@ -213,6 +213,60 @@ void MaximumInBST(Node* root){
 }
 
 
+
+Node* deleteBSTNode(Node* root, int val){
+  if(root == NULL){
+    return root;
+  }
+
+  if(root->data == val){
+    // Node to be deleted found
+    // Case 1: Node has no children (leaf node)
+    if(root->left == NULL && root->right == NULL){
+      delete root;
+      return NULL;
+    }
+    // Case 2: Node has one child
+     if(root->left == NULL){
+      Node* temp = root->right;
+      delete root;
+      return temp;
+    }  if(root->right == NULL){
+      Node* temp = root->left;
+      delete root;
+      return temp;
+    }
+    // Case 3: Node has two children
+    if(root->left != NULL && root->right != NULL){
+      // Find the inorder successor (smallest in the right subtree)
+      // Node* successor = root->right;
+      // while(successor->left != NULL){
+      //   successor = successor->left;
+      // }
+      // // Replace the value of the node to be deleted with the inorder successor's value
+      // root->data = successor->data;
+      // // Delete the inorder successor
+      // root->right = deleteBSTNode(root->right, successor->data);
+      // return root;
+      int minValue = MinimumInBST(root->right)->data;
+      root->data = minValue;
+      root->right = deleteBSTNode(root->right, minValue);
+      return root;
+    }
+
+  } else if(root->data > val){
+    // If the value to be deleted is smaller, go to the left subtree
+    root->left = deleteBSTNode(root->left, val);
+    return root;
+  } else {
+    // If the value to be deleted is larger, go to the right subtree
+    root->right = deleteBSTNode(root->right, val);
+    return root;
+  }
+}
+
+
+
 int main()
 {
   Node *root = NULL;
@@ -255,6 +309,10 @@ int x = 5;
    //Mininum and Maximum in BST
   MinimumInBST(root);
   MaximumInBST(root);
+
+
+  //Delete node in BST
+  DeleteBSTNode(root, 5);
 
 
   return 0;
