@@ -173,7 +173,7 @@ int newColor, int delRow[], int delCol[], int iniColor){
 
 
 
-// 6
+// 6 Rotten Oranges
 
 
 
