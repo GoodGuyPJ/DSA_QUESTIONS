@@ -48,3 +48,5 @@ pair<int, int> diameterFast(Node* root){
 int diameter(Node* root){
   return diameterFast(root).first;
 }
+
+//Balance Tree --> height(left) - height(right) <= 1 for All Nodes
