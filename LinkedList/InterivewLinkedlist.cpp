@@ -161,6 +161,7 @@ public:
 class Solution
 {
 public:
+ListNode* Head;
     // vector<int> arr;
     Solution(ListNode *head)
     {
@@ -169,15 +170,33 @@ public:
         //     arr.push_back(temp->val);
         //     temp= temp->next;
         // }
+
+
+        Head = head;
     }
 
     int getRandom()
     {
         // int n = arr.size();
-        // int random = rand()%n;
+        // int random = rand()%n;  
         // return arr[random];
+
+        int count = 1;
+        int result = 0;
+
+        ListNode* temp = Head;
+        while(temp != NULL){
+            if(rand()%count  < 1.0/count){
+                result = temp->val;
+            }
+            count++;
+            temp = temp->next;
+        }
+        return result;
     }
 };
+
+
 
 // Convert Sorted List to Binary Search Tree
 /**
